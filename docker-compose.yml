@@ -1,0 +1,37 @@
+version: '2'
+services:
+  mysql:
+    container_name: "bellisq_mysql"
+    build: docker/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    volumes:
+      - db:/var/lib/mysql
+  php:
+    container_name: "bellisq_php"
+    build: docker/php
+    ports:
+      - '334:80'
+    volumes:
+      - .:/var/www
+    depends_on:
+      - mysql
+  phpmyadmin:
+    container_name: "bellisq_pma"
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=pass
+    links:
+      - mysql
+    ports:
+       - '8334:80'
+    volumes:
+       - /sessions
+    depends_on:
+      - mysql
+      - php
+volumes:
+  db:

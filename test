@@ -1,0 +1,11 @@
+<?php
+
+function isWindows(){
+    return defined('PHP_WINDOWS_VERSION_MAJOR');
+}
+
+if( isWindows() ) {
+    passthru('vendor\bin\phpunit --colors=always');
+} else {
+    passthru('vendor/bin/phpunit --colors=always');
+}
