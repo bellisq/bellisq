@@ -67,7 +67,7 @@ class Application
         );
 
         if (is_null($routeResult)) {
-
+            header('HTTP/1.0 404 Not Found');
         } else {
             $parameters = $routeResult->getParameters();
             $routeComplete = new ArgumentAutoComplete(new TypeMapAggregate(
