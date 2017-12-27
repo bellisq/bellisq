@@ -1,8 +1,8 @@
 <?php
 
-namespace Bellisq\Bellisq\Containers;
+namespace Bellisq\Bellisq\DI\Containers;
 
-use Bellisq\Bellisq\Providers\ConfigProvider;
+use Bellisq\Bellisq\DI\Providers\ConfigProvider;
 use Bellisq\Fundamental\Logger\MonologProvider;
 use Bellisq\TypeMap\DI\Container;
 use Bellisq\TypeMap\DI\Transport\ProviderRegister;
@@ -34,7 +34,7 @@ class FundamentalContainer
         $map = [
             'logger' => LoggerInterface::class
         ];
-        
+
         if (isset($map[$name])) {
             return $this->get($map[$name]);
         }

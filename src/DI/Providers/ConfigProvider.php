@@ -1,6 +1,6 @@
 <?php
 
-namespace Bellisq\Bellisq\Providers;
+namespace Bellisq\Bellisq\DI\Providers;
 
 use Bellisq\Fundamental\Config\ConfigProviderAbstract;
 use Bellisq\Fundamental\Config\Standard\DebugConfig;

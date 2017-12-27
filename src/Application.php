@@ -2,15 +2,16 @@
 
 namespace Bellisq\Bellisq;
 
-use Bellisq\Bellisq\Containers\FundamentalContainer;
-use Bellisq\Bellisq\Containers\ServiceContainer;
-use Bellisq\Bellisq\Instantiators\ControllerInstantiator;
-use Bellisq\Bellisq\Instantiators\ModelInstantiator;
-use Bellisq\Bellisq\Instantiators\ViewInstantiator;
+use Bellisq\Bellisq\DI\Containers\FundamentalContainer;
+use Bellisq\Bellisq\DI\Containers\ServiceContainer;
+use Bellisq\Bellisq\DI\Instantiators\ControllerInstantiator;
+use Bellisq\Bellisq\DI\Instantiators\ModelInstantiator;
+use Bellisq\Bellisq\DI\Instantiators\ViewInstantiator;
 use Bellisq\Frontend\RequestImmutable;
 use Bellisq\Frontend\RequestMutable;
 use Bellisq\Fundamental\Directory\LogDirectory;
 use Bellisq\Fundamental\Directory\RootDirectory;
+use Bellisq\MVC\ViewAbstract;
 use Bellisq\TypeMap\Utility\ArgumentAutoComplete;
 use Bellisq\TypeMap\Utility\FiniteTypeMapAggregate;
 use Bellisq\TypeMap\Utility\ObjectContainer;
@@ -80,7 +81,11 @@ class Application
             $processor = $routeResult->getProcessor();
             $result = $routeComplete->call($processor);
 
-            print_r($result);
+            if ($result instanceof ViewAbstract) {
+                $result->dispatch();
+            } else {
+                print_r($result);
+            }
         }
 
         $timeEnd = microtime(true);

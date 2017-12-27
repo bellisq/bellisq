@@ -1,8 +1,8 @@
 <?php
 
-namespace Bellisq\Bellisq\Containers;
+namespace Bellisq\Bellisq\DI\Containers;
 
-use Bellisq\Bellisq\Providers\MySQLPDOProvider;
+use Bellisq\Bellisq\DI\Providers\MySQLPDOProvider;
 use Bellisq\TypeMap\DI\Container;
 use Bellisq\TypeMap\DI\Transport\ProviderRegister;
 
