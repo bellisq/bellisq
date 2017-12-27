@@ -4,12 +4,17 @@ namespace Bellisq\Bellisq;
 
 use Bellisq\Bellisq\Containers\FundamentalContainer;
 use Bellisq\Bellisq\Containers\ServiceContainer;
+use Bellisq\Bellisq\Instantiators\ControllerInstantiator;
+use Bellisq\Bellisq\Instantiators\ModelInstantiator;
+use Bellisq\Bellisq\Instantiators\ViewInstantiator;
 use Bellisq\Frontend\RequestImmutable;
 use Bellisq\Frontend\RequestMutable;
 use Bellisq\Fundamental\Directory\LogDirectory;
 use Bellisq\Fundamental\Directory\RootDirectory;
+use Bellisq\TypeMap\Utility\ArgumentAutoComplete;
+use Bellisq\TypeMap\Utility\FiniteTypeMapAggregate;
 use Bellisq\TypeMap\Utility\ObjectContainer;
-use PDO;
+use Bellisq\TypeMap\Utility\TypeMapAggregate;
 
 
 /**
@@ -33,10 +38,7 @@ class Application
         array $files,
         array $env)
     {
-        $requestMutable = new RequestMutable($get, $post, $cookies, $files, $server);
-
-        $requestImmutable = new RequestImmutable($requestMutable);
-
+        $timeBegin = microtime(true);
 
         $fundamentalContainer = new FundamentalContainer(new ObjectContainer(
             new RootDirectory(self::DIR_ROOT),
@@ -44,6 +46,46 @@ class Application
         ));
 
         $serviceContainer = new ServiceContainer($fundamentalContainer);
-        $serviceContainer->get('PDO');
+
+        $requestMutable = new RequestMutable($get, $post, $cookies, $files, $server);
+
+        $requestImmutable = new RequestImmutable($requestMutable);
+
+        $routeResult = (new Router())->route($requestImmutable);
+
+        $modelInstantiator = new ModelInstantiator(
+            new FiniteTypeMapAggregate($fundamentalContainer, $serviceContainer)
+        );
+
+        $viewInstantiator = new ViewInstantiator($fundamentalContainer);
+
+        $controllerInstantiator = new ControllerInstantiator(
+            new TypeMapAggregate(
+                $modelInstantiator, $fundamentalContainer, $viewInstantiator
+            ), true
+        );
+
+        if (is_null($routeResult)) {
+
+        } else {
+            $parameters = $routeResult->getParameters();
+            $routeComplete = new ArgumentAutoComplete(new TypeMapAggregate(
+                $modelInstantiator,
+                $fundamentalContainer,
+                $controllerInstantiator,
+                $viewInstantiator,
+                new ObjectContainer($parameters)
+            ));
+
+            $processor = $routeResult->getProcessor();
+            $result = $routeComplete->call($processor);
+
+            print_r($result);
+        }
+
+        $timeEnd = microtime(true);
+        $fundamentalContainer->logger->info(
+            'Time: ' . ($timeEnd - $timeBegin)
+        );
     }
 }

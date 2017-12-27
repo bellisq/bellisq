@@ -15,7 +15,8 @@
         "bellisq/frontend": "^1.0",
         "bellisq/routes": "^1.1",
         "bellisq/fundamental": "^1.0@beta",
-        "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "bellisq/mvc": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"

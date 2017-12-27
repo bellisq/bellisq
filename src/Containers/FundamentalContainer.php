@@ -6,6 +6,7 @@ use Bellisq\Bellisq\Providers\ConfigProvider;
 use Bellisq\Fundamental\Logger\MonologProvider;
 use Bellisq\TypeMap\DI\Container;
 use Bellisq\TypeMap\DI\Transport\ProviderRegister;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -15,6 +16,8 @@ use Bellisq\TypeMap\DI\Transport\ProviderRegister;
  * @copyright 2017 Bellisq. All Rights Reserved.
  * @package bellisq/bellisq
  * @since 1.0.0
+ *
+ * @property-read LoggerInterface $logger
  */
 class FundamentalContainer
     extends Container
@@ -24,5 +27,16 @@ class FundamentalContainer
         $providerRegister
             ->registerClass(ConfigProvider::class)
             ->registerClass(MonologProvider::class);
+    }
+
+    public function __get(string $name)
+    {
+        $map = [
+            'logger' => LoggerInterface::class
+        ];
+        
+        if (isset($map[$name])) {
+            return $this->get($map[$name]);
+        }
     }
 }
