@@ -3,6 +3,7 @@
 namespace Bellisq\Bellisq;
 
 use Bellisq\Bellisq\Containers\FundamentalContainer;
+use Bellisq\Bellisq\Containers\ServiceContainer;
 use Bellisq\Frontend\RequestImmutable;
 use Bellisq\Frontend\RequestMutable;
 use Bellisq\Fundamental\Directory\LogDirectory;
@@ -32,9 +33,9 @@ class Application
         array $files,
         array $env)
     {
-        // $requestMutable = new RequestMutable($get, $post, $cookies, $files, $server);
+        $requestMutable = new RequestMutable($get, $post, $cookies, $files, $server);
 
-        // $requestImmutable = new RequestImmutable($requestMutable);
+        $requestImmutable = new RequestImmutable($requestMutable);
 
 
         $fundamentalContainer = new FundamentalContainer(new ObjectContainer(
@@ -42,8 +43,7 @@ class Application
             new LogDirectory(self::DIR_LOG)
         ));
 
-
-        // new PDO('mysql:host=bellisq_mysql', 'root', 'pass', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        // phpinfo();
+        $serviceContainer = new ServiceContainer($fundamentalContainer);
+        $serviceContainer->get('PDO');
     }
 }
