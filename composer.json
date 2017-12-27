@@ -11,10 +11,10 @@
     ],
     "require": {
         "php": "^7.2",
-        "bellisq/type-map": "^2.0@beta",
+        "bellisq/type-map": "^2.0",
         "bellisq/frontend": "^1.0",
         "bellisq/routes": "^1.1",
-        "bellisq/fundamental": "^1.0@beta",
+        "bellisq/fundamental": "^1.0",
         "psr/log": "^1.0",
         "bellisq/mvc": "^1.0"
     },
