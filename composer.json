@@ -12,9 +12,9 @@
     "require": {
         "php": "^7.2",
         "bellisq/type-map": "^2.0",
-        "bellisq/frontend": "^1.0",
-        "bellisq/routes": "^1.1",
-        "bellisq/fundamental": "^1.0",
+        "bellisq/fundamental": "^2.0",
+        "bellisq/request": "^1.0",
+        "bellisq/router": "^1.0",
         "psr/log": "^1.0",
         "bellisq/mvc": "^1.0"
     },

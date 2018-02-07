@@ -3,20 +3,31 @@
 namespace Bellisq\Bellisq;
 
 use Bellisq\Bellisq\MVC\Controllers\WelcomeController;
-use Bellisq\Routes\RouteObject;
-use Bellisq\Routes\StandardRouter;
+use Bellisq\MVC\ViewAbstract;
+use Bellisq\Router\RouteRegister;
+use Bellisq\Router\StandardRouter;
 
 
+/**
+ * [Class] Router
+ *
+ * @author Showsay You <akizuki.c10.l65@gmail.com>
+ * @copyright 2018 Bellisq. All Rights Reserved.
+ * @package bellisq/bellisq
+ * @since 1.0.0
+ */
 class Router
     extends StandardRouter
 {
-    protected function register(RouteObject $routeObject)
+    /**
+     * @inheritdoc
+     */
+    protected static function registerRoutes(RouteRegister $routeRegister): void
     {
-        $routeObject
-            ->get('/')
-            ->name('')
-            ->handler = function (WelcomeController $welcomeController) {
-            return $welcomeController->showWelcome('Welcome to Bellisq!');
+        $routeRegister
+            ->route('/')
+            ->handler = function (WelcomeController $controller): ViewAbstract {
+            return $controller->showWelcome('Welcome to Bellisq!');
         };
     }
 }
